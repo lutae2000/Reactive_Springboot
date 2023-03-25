@@ -1,0 +1,8 @@
+spring:
+  webflux:
+    hiddenmethod:
+      filter:
+        enabled: true
+  mongodb:
+    embedded:
+      version: 4.4.5
