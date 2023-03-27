@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Description;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.geo.Point;
+
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -14,10 +17,17 @@ public class Item {
 
     private @Id String id;
     private String name;
+    private String description;
     private double price;
+    private String distributorRegion;
+    private Date releaseDate;
+    private int availableUnits;
+    private Point location;
+    private boolean active;
 
-    public Item(String name, double price) {
+    public Item(String name, String description, double price) {
         this.name = name;
+        this.description = description;
         this.price = price;
     }
 }
