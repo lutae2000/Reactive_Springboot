@@ -76,6 +76,5 @@ public class HomeController {
                 .modelAttribute("cart", cartRepository.findById("My Cart")
                         .defaultIfEmpty(new Cart("My Cart")))
                 .build());
-
     }
 }
