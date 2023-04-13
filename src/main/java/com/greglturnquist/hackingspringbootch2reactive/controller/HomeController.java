@@ -19,9 +19,7 @@ public class HomeController {
     private ItemRepository itemRepository;
     private InventoryService inventoryService;
 
-    public HomeController(ItemRepository itemRepository, // <2>
-                          InventoryService inventoryService) {
-        this.itemRepository = itemRepository;
+    public HomeController(InventoryService inventoryService) {
         this.inventoryService = inventoryService;
     }
     // end::1[]

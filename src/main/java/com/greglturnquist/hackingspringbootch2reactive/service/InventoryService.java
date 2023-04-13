@@ -46,7 +46,7 @@ public class InventoryService {
         this.cartRepository = cartRepository;
     }
 
-    public Flux<Item> searchByExample(String name, String description, boolean useAnd) {
+/*    public Flux<Item> searchByExample(String name, String description, boolean useAnd) {
         Item item = new Item(name, description, 0.0);
 
         ExampleMatcher matcher = (useAnd ? ExampleMatcher.matchingAll() : ExampleMatcher.matchingAny())
@@ -56,7 +56,7 @@ public class InventoryService {
 
         Example<Item> probe = Example.of(item, matcher);
         return itemRepository.findAll(probe);
-    }
+    }*/
 
     public Flux<Item> searchByFluentExample(String name, String description){
         return reactiveFluentMongoOperations.query(Item.class) //
