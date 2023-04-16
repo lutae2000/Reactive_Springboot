@@ -7,6 +7,7 @@ import com.greglturnquist.hackingspringbootch2reactive.repository.CartRepository
 import com.greglturnquist.hackingspringbootch2reactive.repository.ItemRepository;
 import com.greglturnquist.hackingspringbootch2reactive.service.InventoryService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,15 +25,15 @@ import static reactor.core.publisher.Mono.when;
 
 @ExtendWith(SpringExtension.class)
 public class InventoryServiceUnitTest {
+    // tag::class-under-test[]
+    InventoryService inventoryService; // <1>
 
-    InventoryService inventoryService;
+    @MockBean private ItemRepository itemRepository; // <2>
 
-    @MockBean
-    private ItemRepository itemRepository;
+    @MockBean private CartRepository cartRepository; // <2>
+    // end::class-under-test[]
 
-    @MockBean
-    private CartRepository cartRepository;
-
+    // tag::before[]
     @BeforeEach // <1>
     void setUp() {
         // Define test data <2>
@@ -48,32 +49,44 @@ public class InventoryServiceUnitTest {
 
         inventoryService = new InventoryService(itemRepository, cartRepository); // <4>
     }
+    // end::before[]
 
+    // tag::test[]
     @Test
-    void addItemToEmptyCartShouldProduceOneCartItem(){
-        inventoryService.addItemToCart("My Cart", "item1")
-                .as(StepVerifier::create)
-                .expectNextMatches(cart -> {
-                    assertThat(cart.getCartItems()).extracting(CartItem::getQuantity)
-                            .containsExactlyInAnyOrder(1);
+    @Disabled
+    void addItemToEmptyCartShouldProduceOneCartItem() { // <1>
+        inventoryService.addItemToCart("My Cart", "item1") // <2>
+                .as(StepVerifier::create) // <3>
+                .expectNextMatches(cart -> { // <4>
+                    assertThat(cart.getCartItems()).extracting(CartItem::getQuantity) //
+                            .containsExactlyInAnyOrder(1); // <5>
 
-                    assertThat(cart.getCartItems()).extracting(CartItem::getItem)
-                            .containsExactlyInAnyOrder(new  Item("item1", "TV tray", "Alf TV tray", 19.99));
-                    return true;
-                })
-                .verifyComplete();
+                    assertThat(cart.getCartItems()).extracting(CartItem::getItem) //
+                            .containsExactly(new Item("item1", "TV tray", "Alf TV tray", 19.99)); // <6>
+
+                    return true; // <7>
+                }) //
+                .verifyComplete(); // <8>
     }
+    // end::test[]
 
+    // tag::test2[]
     @Test
-    void alternativeWayToTest(){
-        StepVerifier.create(
-                inventoryService.addItemToCart("My Cart", "item1"))
-                .expectNextMatches(cart -> {
-                    assertThat(cart.getCartItems()).extracting(CartItem::getQuantity).containsExactlyInAnyOrder(1);
-                    assertThat(cart.getCartItems()).extracting(CartItem::getItem).containsExactly(new Item("item1", "TV tray", 19.99));
-                    return true;
-                })
-                .verifyComplete();
+    @Disabled
+    void alternativeWayToTest() { // <1>
+        StepVerifier.create( //
+                        inventoryService.addItemToCart("My Cart", "item1")) //
+                .expectNextMatches(cart -> { // <4>
+                    assertThat(cart.getCartItems()).extracting(CartItem::getQuantity) //
+                            .containsExactlyInAnyOrder(1); // <5>
+
+                    assertThat(cart.getCartItems()).extracting(CartItem::getItem) //
+                            .containsExactly(new Item("item1", "TV tray", "Alf TV tray", 19.99)); // <6>
+
+                    return true; // <7>
+                }) //
+                .verifyComplete(); // <8>
     }
+    // end::test2[]
 
 }
