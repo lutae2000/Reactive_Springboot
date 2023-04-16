@@ -35,7 +35,7 @@ public class AltInventoryService {
         return this.itemRepository.deleteById(id);
     }
 
-    public Mono<Cart> AddItemToCart(String cartId, String itemId){
+    public Mono<Cart> addItemToCart(String cartId, String itemId){
         Cart myCart = this.cartRepository.findById(cartId)
                 .defaultIfEmpty(new Cart(cartId))
                 .block();
