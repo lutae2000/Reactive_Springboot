@@ -54,3 +54,49 @@ include::{snippets}/findOne-hypermedia/response-body.adoc[]
 ===== 링크
 
 include::{snippets}/findOne-hypermedia/links.adoc[]
+
+---
+
+=== 모든 상품 조회
+==== 요청
+===== http
+
+include::{snippets}/findAll-hypermedia/http-request.adoc[]
+
+===== curl
+
+include::{snippets}/findAll-hypermedia/curl-request.adoc[]
+
+===== HTTPie
+
+include::{snippets}/findAll-hypermedia/httpie-request.adoc[]
+
+==== 응답
+
+include::{snippets}/findAll-hypermedia/http-response.adoc[]
+
+===== 응답 본문
+
+include::{snippets}/findAll-hypermedia/response-body.adoc[]
+
+=== 신규 상품 추가
+==== 요청
+===== http
+
+include::{snippets}/post-new-item/http-request.adoc[]
+
+===== curl
+
+include::{snippets}/post-new-item/curl-request.adoc[]
+
+===== HTTPie
+
+include::{snippets}/post-new-item/httpie-request.adoc[]
+
+==== 응답
+
+include::{snippets}/post-new-item/http-response.adoc[]
+
+===== 응답 본문
+
+include::{snippets}/post-new-item/response-body.adoc[]

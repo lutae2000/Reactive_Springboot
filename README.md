@@ -30,8 +30,10 @@ Dockerfile 없이 도커 이미지 만들기
 
 ## RestDoc 적용하면 아래 사진과 같이 API 템플릿 자동 생성
 - Restdoc 적용시 아래와 같이 패키지 빌드 재시작 필요(mvn일때)
-- 템플릿은 {project_home}/main/asciidoc/index.adoc 에 정의 
-- 참고문서 https://tecoble.techcourse.co.kr/post/2020-08-18-spring-rest-docs/
+- 템플릿은 {project_home}/main/asciidoc/index.adoc 에 정의 => 실제 파일생성시엔 target/generated-docs/index.html에 생성
+### 참고문서
+- 우아한형제들 테크블로그: https://tecoble.techcourse.co.kr/post/2020-08-18-spring-rest-docs/
+- 마켓컬리: https://github.com/thefarmersfront/spring-rest-docs-guide/blob/main/src/docs/asciidoc/index.adoc
 
 ```
 # ./mvnw clean prepare-package

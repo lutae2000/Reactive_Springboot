@@ -34,7 +34,7 @@ public class HypermediaItemController {
     }
 
     @GetMapping("/hypermedia/items")
-    Mono<CollectionModel<EntityModel<Item>>> findAll() {
+    public Mono<CollectionModel<EntityModel<Item>>> findAll() {
         return this.itemRepository.findAll()
                 .flatMap(item -> findOne(item.getId()))
                 .collectList()
