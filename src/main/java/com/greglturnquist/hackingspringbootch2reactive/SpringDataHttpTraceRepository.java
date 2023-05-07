@@ -1,9 +1,11 @@
-package com.greglturnquist.hackingspringbootch2reactive.repository;
+package com.greglturnquist.hackingspringbootch2reactive;
 
 
 import com.greglturnquist.hackingspringbootch2reactive.entity.HttpTraceWrapper;
+import com.greglturnquist.hackingspringbootch2reactive.repository.HttpTraceWrapperRepository;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+
 
 import java.util.List;
 import java.util.stream.Collectors;

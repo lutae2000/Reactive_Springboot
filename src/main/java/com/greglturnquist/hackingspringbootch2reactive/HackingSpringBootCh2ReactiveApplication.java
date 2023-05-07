@@ -2,7 +2,6 @@ package com.greglturnquist.hackingspringbootch2reactive;
 
 import com.greglturnquist.hackingspringbootch2reactive.entity.HttpTraceWrapper;
 import com.greglturnquist.hackingspringbootch2reactive.repository.HttpTraceWrapperRepository;
-import com.greglturnquist.hackingspringbootch2reactive.repository.SpringDataHttpTraceRepository;
 import org.bson.Document;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.boot.SpringApplication;
@@ -29,10 +28,6 @@ public class HackingSpringBootCh2ReactiveApplication {
         return new InMemoryHttpTraceRepository();
     }
 
-    @Bean
-    HttpTraceRepository SpringDataTraceRepository(HttpTraceWrapperRepository repository){
-        return new SpringDataHttpTraceRepository(repository);
-    }
 
     public static void main(String[] args) {
         BlockHound.builder()
@@ -47,7 +42,7 @@ public class HackingSpringBootCh2ReactiveApplication {
      * 몽고DB Document 를 HttpTraceWrapper 로 변환하는 컨버터
      */
 
-    static Converter<Document, HttpTraceWrapper> Converter = new Converter<Document, HttpTraceWrapper>() {
+    static Converter<Document, HttpTraceWrapper> CONVERTER = new Converter<Document, HttpTraceWrapper>() { //
         @Override
         public HttpTraceWrapper convert(Document document){
             Document httpTrace = document.get("httpTrace", Document.class);
@@ -70,10 +65,10 @@ public class HackingSpringBootCh2ReactiveApplication {
         }
     };
 
-    @Bean
+/*    @Bean
     public MappingMongoConverter mappingMongoConverter(MongoMappingContext context){
         MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(NoOpDbRefResolver.INSTANCE, context);
-        mappingMongoConverter.setCustomConversions(new MongoCustomConversions(Collections.singletonList(Converter)));
+        mappingMongoConverter.setCustomConversions(new MongoCustomConversions(Collections.singletonList(CONVERTER)));
         return mappingMongoConverter;
-    }
+    }*/
 }
