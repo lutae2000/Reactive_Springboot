@@ -3,6 +3,7 @@ package com.greglturnquist.hackingspringbootch2reactive;
 import com.greglturnquist.hackingspringbootch2reactive.entity.HttpTraceWrapper;
 import com.greglturnquist.hackingspringbootch2reactive.repository.HttpTraceWrapperRepository;
 import org.bson.Document;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
@@ -64,6 +65,11 @@ public class HackingSpringBootCh2ReactiveApplication {
             ));
         }
     };
+
+    @Bean
+    Jackson2JsonMessageConverter jackson2JsonMessageConverter(){
+        return new Jackson2JsonMessageConverter();
+    }
 
 /*    @Bean
     public MappingMongoConverter mappingMongoConverter(MongoMappingContext context){
