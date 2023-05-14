@@ -61,6 +61,18 @@ public class RabbitTest {
                 .as(StepVerifier::create)
                 .expectNextMatches(item -> {
                     assertThat(item.getName()).isEqualTo("Alf alarm clock");
+                    assertThat(item.getDescription()).isEqualTo("kid clock");
+                    assertThat(item.getPrice()).isEqualTo(19.99);
+                    return true;
+                })
+                .expectNextMatches(item -> {
+                    assertThat(item.getName()).isEqualTo("Smurf TV tray");
+                    assertThat(item.getDescription()).isEqualTo("kid TV");
+                    assertThat(item.getPrice()).isEqualTo(24.99);
+                    return true;
+                })
+                .expectNextMatches(item -> {
+                    assertThat(item.getName()).isEqualTo("Alf alarm clock");
                     assertThat(item.getDescription()).isEqualTo("nothing important");
                     assertThat(item.getPrice()).isEqualTo(19.99);
                     return true;
