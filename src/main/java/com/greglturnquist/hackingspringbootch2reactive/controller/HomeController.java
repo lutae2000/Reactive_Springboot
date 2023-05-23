@@ -7,6 +7,7 @@ import com.greglturnquist.hackingspringbootch2reactive.repository.ItemRepository
 import com.greglturnquist.hackingspringbootch2reactive.service.CartService;
 import com.greglturnquist.hackingspringbootch2reactive.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
@@ -26,25 +27,29 @@ public class HomeController {
 
     // tag::2[]
     @GetMapping
-    Mono<Rendering> home() { // <1>
+    Mono<Rendering> home(Authentication auth) { // <1>
         return Mono.just(Rendering.view("home.html")
                 .modelAttribute("items", this.inventoryService.getInventory())
-                .modelAttribute("cart", this.inventoryService.getCart("My Cart")
-                        .defaultIfEmpty(new Cart("My Cart")))
+                .modelAttribute("cart", this.inventoryService.getCart(cartName(auth))
+                        .defaultIfEmpty(new Cart(cartName(auth))))
+                .modelAttribute("auth", auth)
                 .build());
     }
 
     @PostMapping("/add/{id}") // <1>
-    Mono<String> addToCart(@PathVariable String id) { // <2>
-        return this.inventoryService.addItemToCart("My Cart", id)
+    Mono<String> addToCart(Authentication auth, @PathVariable String id) { // <2>
+        return this.inventoryService.addItemToCart(cartName(auth), id)
                 .thenReturn("redirect:/");
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<String> deleteCartItem(@PathVariable String id) {
-        return this.inventoryService.removeOneFromCart("My Cart",id)
+    public Mono<String> deleteCartItem(Authentication auth, @PathVariable String id) {
+        return this.inventoryService.removeOneFromCart(cartName(auth),id)
                 .thenReturn("redirect:/");
     }
 
+    private static String cartName(Authentication auth){
+        return auth.getName() + "'s Cart";
+    }
 
 }

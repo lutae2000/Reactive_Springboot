@@ -41,14 +41,14 @@ public class HomeControllerTest {
                 .uri("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue("{" +
-                        "\"name\": \"iphone 11\", "+
+                        "\"name\": \"iphone 12\", "+
                         "\"description\": \"upgrade\", " +
                         "\"price\": 999.99" +
                         "}")
                 .exchange()
                 .expectStatus().isOk();
 
-        this.itemRepository.findByNameContaining("iphone 11")
+        this.itemRepository.findByNameContaining("iphone 12")
                 .as(StepVerifier::create)
                 .expectNextMatches(item -> {
                     assertThat(item.getDescription()).isEqualTo("upgrade");
