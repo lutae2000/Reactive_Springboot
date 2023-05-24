@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     static final String USER = "USER";
-    static final String INVENTORY = "INVENTORY";
+    public static final String INVENTORY = "INVENTORY";
 
     static String role(String auth){
         return "ROLE_" + auth;
