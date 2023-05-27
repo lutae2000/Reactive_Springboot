@@ -9,6 +9,8 @@ import reactor.core.publisher.Mono;
 
 public interface ItemRepository extends ReactiveCrudRepository<Item, String> {
 
+    Mono<Item> save(Item item);
+
     Mono<Item> findByName(String name);
 
     Flux<Item> findByNameContaining(String partialName);

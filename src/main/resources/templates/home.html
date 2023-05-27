@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">>
 <head>
   <meta charset="UTF-8" />
   <title>Hacking with Spring Boot - Getting Started</title>
@@ -7,7 +7,29 @@
 <body>
 <h1>Welcome to Hacking with Spring Boot!</h1>
 
-<table>
+
+<div sec:authorize="isAuthenticated()">
+  <table>
+    <tr>
+      <td>User:</td>
+      <td><span sec:authentication="name"></span></td>
+    </tr>
+    <tr>
+      <td>Authorities:</td>
+      <td th:text="${authorities}"></td>
+    </tr>
+    <tr th:each="userAttribute : ${userAttributes}">
+      <td th:text="${userAttribute.key}"></td>
+      <td th:text="${userAttribute.value}"></td>
+    </tr>
+  </table>
+  <form action="#" th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout"/>
+  </form>
+</div>
+
+
+<!--<table>
   <tr>
     <td>Name: </td>
     <td th:text="${auth.name}"></td>
@@ -16,10 +38,14 @@
     <td>Authorities</td>
     <td th:text="${auth.authorities}"></td>
   </tr>
-</table>
-<form action="/logout" method="post">
-  <input type="submit" value="Logout">
-</form>
+
+  <form action="/logout" method="post">
+    <input type="submit" value="Logout">
+  </form>
+</table>-->
+
+
+
 <hr>
 <!-- tag::1[] -->
 <h2>Inventory Management</h2>

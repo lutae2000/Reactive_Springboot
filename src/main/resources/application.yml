@@ -6,6 +6,13 @@ spring:
   mongodb:
     embedded:
       version: 4.4.5
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 325742865013-nair754fv5v18ocfre2gj52qqok3t666.apps.googleusercontent.com
+            client-secret: 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
 management:
   endpoint:
     health:

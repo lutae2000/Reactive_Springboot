@@ -14,8 +14,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import java.util.Arrays;
 
-@Configuration
-@EnableReactiveMethodSecurity
+//@Configuration
+//@EnableReactiveMethodSecurity
 public class SecurityConfig {
 
     static final String USER = "USER";
@@ -25,38 +25,39 @@ public class SecurityConfig {
         return "ROLE_" + auth;
     }
 
-    @Bean
-    public ReactiveUserDetailsService userDetailsService(UserRepository repository){
-        return username -> repository.findByName(username)
-                .map(user -> User.withDefaultPasswordEncoder()
-                        .username(user.getName())
-                        .password(user.getPassword())
-                        .authorities(user.getRoles().toArray(new String[0]))
-                        .build()
-                );
-    }
+//    @Bean
+//    public ReactiveUserDetailsService userDetailsService(UserRepository repository){
+//        return username -> repository.findByName(username)
+//                .map(user -> User.withDefaultPasswordEncoder()
+//                        .username(user.getName())
+//                        .password(user.getPassword())
+//                        .authorities(user.getRoles().toArray(new String[0]))
+//                        .build()
+//                );
+//    }
+//
+//    @Bean
+//    CommandLineRunner userLoader(MongoOperations operations){
+//        return args -> {
+//            operations.save(new com.greglturnquist.hackingspringbootch2reactive.entity.User(
+//                    "greg", "password", Arrays.asList(role(USER))
+//            ));
+//            operations.save(new com.greglturnquist.hackingspringbootch2reactive.entity.User(
+//                    "manager", "password", Arrays.asList(role(USER), role(INVENTORY))
+//            ));
+//        };
+//    }
 
     @Bean
-    CommandLineRunner userLoader(MongoOperations operations){
-        return args -> {
-            operations.save(new com.greglturnquist.hackingspringbootch2reactive.entity.User(
-                    "greg", "password", Arrays.asList(role(USER))
-            ));
-            operations.save(new com.greglturnquist.hackingspringbootch2reactive.entity.User(
-                    "manager", "password", Arrays.asList(role(USER), role(INVENTORY))
-            ));
-        };
-    }
-
-    @Bean
-    SecurityWebFilterChain myCustomSecurityPolicy(ServerHttpSecurity serverHttpSecurity){
-        return serverHttpSecurity.authorizeExchange(exchange -> exchange.anyExchange()
-                .authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .formLogin())
-                .csrf()
-                .disable().build();
+    SecurityWebFilterChain myCustomSecurityPolicy(ServerHttpSecurity http) { //
+        return http //
+                .authorizeExchange(exchanges -> exchanges //
+                        .anyExchange().authenticated() //
+                        .and() //
+                        .httpBasic() //
+                        .and() //
+                        .formLogin()) //
+                .csrf().disable() //
+                .build();
     }
 }

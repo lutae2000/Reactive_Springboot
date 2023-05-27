@@ -25,6 +25,22 @@ public class ApiItemController {
         this.itemRepository = itemRepository;
     }
 
+    @GetMapping("/api")
+    Mono<RepresentationModel<?>> root() {
+        ApiItemController controller = methodOn(ApiItemController.class);
+
+        Mono<Link> selfLink = linkTo(controller.root()).withSelfRel() //
+                .toMono();
+
+        Mono<Link> itemsAggregateLink = linkTo(controller.findAll(null)) //
+                .withRel(IanaLinkRelations.ITEM) //
+                .toMono();
+
+        return Mono.zip(selfLink, itemsAggregateLink) //
+                .map(links -> Links.of(links.getT1(), links.getT2())) //
+                .map(links -> new RepresentationModel<>(links.toList()));
+    }
+
     @GetMapping("/api/items")
     Mono<CollectionModel<EntityModel<Item>>> findAll(Authentication auth) {
         ApiItemController controller = methodOn(ApiItemController.class);
@@ -72,11 +88,13 @@ public class ApiItemController {
     @PreAuthorize("hasRole('"+ INVENTORY +"')")
     @PostMapping("/api/items/add")
     public Mono<ResponseEntity<?>> addNewItem(@RequestBody Item item, Authentication auth){
-        return itemRepository.save(item)
-                .map(Item::getId)
-                .flatMap(id -> findOne(id, auth))
-                .map(newModel -> ResponseEntity.created(newModel.getRequiredLink(IanaLinkRelations.SELF)
-                                                                .toUri()).build());
+        return this.itemRepository.save(item) //
+                .map(Item::getId) //
+                .flatMap(id -> findOne(id, auth)) //
+                .map(newModel -> ResponseEntity.created(newModel //
+                        .getRequiredLink(IanaLinkRelations.SELF) //
+                        .toUri())
+                        .body(newModel));
     }
 
     @PutMapping("/api/items/{id}")
@@ -90,7 +108,8 @@ public class ApiItemController {
                 .flatMap(this.itemRepository::save)
                 .then(findOne(id, auth))
                 .map(model -> ResponseEntity.noContent()
-                        .location(model.getRequiredLink(IanaLinkRelations.SELF).toUri()).build()
+                        .location(model.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                        .build()
                 );
     }
 
